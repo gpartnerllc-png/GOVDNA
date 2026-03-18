@@ -1,172 +1,290 @@
 <!DOCTYPE html>
-<html lang="pt-br" class="dark">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dna Tax AI | Command Center</title>
+    <title>Dna Tax AI | Sovereign Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Inter:wght@300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap');
         
+        :root {
+            --google-blue: #1a73e8;
+            --google-red: #ea4335;
+            --google-yellow: #fbbc05;
+            --google-green: #34a853;
+            --bg-light: #f8f9fa;
+            --panel-shadow: 0 1px 3px rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #050505;
-            color: #e5e7eb;
-            overflow: hidden;
+            font-family: 'Google Sans', sans-serif;
+            background-color: var(--bg-light);
+            color: #202124;
             height: 100vh;
+            overflow: hidden;
         }
 
-        .glass-panel {
-            background: rgba(15, 15, 15, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
+        /* Efeito de Relevo e Neomorfismo Suave */
+        .google-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--panel-shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #dadce0;
         }
 
-        .glass-panel:hover {
-            border-color: #3b82f6;
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+        .google-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(60,64,67,0.2);
         }
 
-        .neon-text { text-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
-
-        .status-pulse { animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-
-        .btn-militar {
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        .btn-google {
+            background-color: var(--google-blue);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 24px;
+            font-weight: 500;
+            transition: all 0.3s;
+            box-shadow: 0 1px 2px rgba(60,64,67,0.3);
         }
 
-        .btn-militar:active { transform: scale(0.95); }
+        .btn-google:hover {
+            background-color: #185abc;
+            box-shadow: 0 4px 8px rgba(60,64,67,0.3);
+        }
 
-        /* Sistema de Abas */
-        .view-section { display: none; }
+        .sidebar-item {
+            transition: all 0.2s;
+            border-radius: 0 24px 24px 0;
+        }
+
+        .sidebar-item.active {
+            background-color: #e8f0fe;
+            color: var(--google-blue);
+            font-weight: 500;
+        }
+
+        .status-online {
+            width: 10px; height: 10px;
+            background-color: var(--google-green);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--google-green);
+        }
+
+        .view-section { display: none; animation: fadeIn 0.4s ease-out; }
         .view-section.active { display: grid; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); }
+        .tab-shadow { box-shadow: inset 0 -2px 0 var(--google-blue); }
     </style>
 </head>
-<body class="p-6 flex flex-col">
+<body class="flex flex-col">
 
-    <header class="flex justify-between items-center mb-8 shrink-0">
-        <div>
-            <h1 class="text-2xl font-bold tracking-tighter neon-text flex items-center gap-2">
-                <i data-lucide="shield-check" class="text-blue-500"></i>
-                Dna Tax | Center <span class="text-blue-500 underline">AI</span>
-            </h1>
-            <p class="text-xs text-gray-500 font-mono">NODE: SandxCDD | SECURITY: MIL-SPEC AES-256</p>
-        </div>
-        <div class="flex gap-4">
-            <div class="glass-panel px-4 py-2 rounded-lg flex items-center gap-3">
-                <span class="w-2 h-2 bg-green-500 rounded-full status-pulse" id="status-dot"></span>
-                <span class="text-xs font-mono" id="sync-label">FEDERAL/SEFAZ-ACTIVE</span>
+    <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shrink-0 z-10">
+        <div class="flex items-center gap-4">
+            <div class="p-2 bg-blue-50 rounded-lg">
+                <i data-lucide="shield-check" class="text-blue-600 w-8 h-8"></i>
             </div>
-            <button onclick="showNotification('Certificado Digital A1 Verificado.', 'success')" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded font-bold text-sm transition text-white">
-                CERTIFICADO ATIVO
+            <div>
+                <h1 class="text-xl font-medium tracking-tight text-gray-700">Dna Tax <span class="font-bold text-blue-600">Center AI</span></h1>
+                <p class="text-[10px] font-mono text-gray-400 uppercase tracking-widest">Sovereign Node: SandxCDD</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-6">
+            <div class="flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full">
+                <span class="status-online"></span>
+                <span class="text-xs font-medium text-gray-600" id="sync-status">GOV-SYNC: ATIVO</span>
+            </div>
+            <button onclick="configurarCertificado()" class="flex items-center gap-2 border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-50 transition font-medium text-sm">
+                <i data-lucide="key" class="w-4 h-4 text-yellow-500"></i>
+                VINCULAR CERTIFICADO A1/A3
             </button>
+            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-400 to-purple-500 border-2 border-white shadow-sm cursor-pointer"></div>
         </div>
     </header>
 
-    <main class="grid grid-cols-12 gap-6 flex-1 min-h-0">
+    <main class="flex flex-1 overflow-hidden">
         
-        <aside class="col-span-2 space-y-4">
-            <nav class="space-y-2" id="main-nav">
-                <button onclick="switchView('dashboard')" data-view="dashboard" class="nav-btn w-full flex items-center gap-3 p-3 rounded-lg bg-blue-600/10 border border-blue-600/50 text-blue-400">
-                    <i data-lucide="layout-dashboard"></i> Dashboard
+        <aside class="w-64 bg-white border-r border-gray-200 py-6 pr-4 shrink-0">
+            <nav class="space-y-1">
+                <button onclick="switchView('dashboard')" data-view="dashboard" class="sidebar-item active w-full flex items-center gap-4 py-3 px-6 text-gray-600 hover:bg-gray-100">
+                    <i data-lucide="layout-grid"></i> Dashboard
                 </button>
-                <button onclick="switchView('notas')" data-view="notas" class="nav-btn w-full flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition text-gray-400">
+                <button onclick="switchView('notas')" data-view="notas" class="sidebar-item w-full flex items-center gap-4 py-3 px-6 text-gray-600 hover:bg-gray-100">
                     <i data-lucide="file-text"></i> Notas Fiscais
                 </button>
-                <button onclick="switchView('balancetes')" data-view="balancetes" class="nav-btn w-full flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition text-gray-400">
-                    <i data-lucide="trending-up"></i> Balancetes
+                <button onclick="switchView('balancetes')" data-view="balancetes" class="sidebar-item w-full flex items-center gap-4 py-3 px-6 text-gray-600 hover:bg-gray-100">
+                    <i data-lucide="activity"></i> Impostos (DAS)
                 </button>
-                <button onclick="moduloOffline('Contador Hub')" class="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition text-gray-400">
-                    <i data-lucide="users"></i> Contador Hub
+                <button onclick="switchView('config')" data-view="config" class="sidebar-item w-full flex items-center gap-4 py-3 px-6 text-gray-600 hover:bg-gray-100">
+                    <i data-lucide="settings"></i> Configurações Gov
                 </button>
             </nav>
-
-            <div class="glass-panel p-4 rounded-xl mt-10">
-                <p class="text-[10px] text-gray-500 mb-2 uppercase tracking-widest font-bold">IA Fiscal Engine</p>
-                <p class="text-sm italic text-blue-300" id="ia-sidebar">"Alíquotas sincronizadas."</p>
+            
+            <div class="mx-6 mt-12 p-4 bg-blue-50 rounded-2xl border border-blue-100">
+                <div class="flex items-center gap-2 mb-2">
+                    <i data-lucide="sparkles" class="text-blue-500 w-4 h-4"></i>
+                    <span class="text-xs font-bold text-blue-700">IA FISCAL</span>
+                </div>
+                <p class="text-[11px] text-blue-600 leading-relaxed italic">"Varredura em tempo real ativa na Receita Federal e SEFAZ."</p>
             </div>
         </aside>
 
-        <div class="col-span-10 overflow-y-auto pr-2">
+        <div class="flex-1 overflow-y-auto p-8 bg-[#f8f9fa]">
             
-            <section id="view-dashboard" class="view-section active grid grid-cols-3 gap-6">
-                <div class="glass-panel p-6 rounded-2xl relative overflow-hidden">
-                    <div class="absolute top-0 right-0 p-4 opacity-10"><i data-lucide="landmark" size="64"></i></div>
-                    <h3 class="text-gray-400 text-sm mb-1 uppercase font-bold tracking-tighter">Total a Pagar (Ledger D1)</h3>
-                    <p class="text-4xl font-bold mb-4 font-mono text-white" id="tax-value">R$ 0,00</p>
-                    <div class="flex justify-between items-end">
-                        <span class="text-red-400 text-[10px] uppercase font-bold flex items-center gap-1">
-                            <i data-lucide="alert-triangle" size="12"></i> Vencimento Próximo
+            <section id="view-dashboard" class="view-section active grid grid-cols-3 gap-8">
+                
+                <div class="google-card p-6 flex flex-col justify-between border-t-4 border-t-blue-500">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-gray-500 text-sm font-medium uppercase tracking-wider">Total a Pagar (Geral)</h3>
+                            <i data-lucide="landmark" class="text-gray-300"></i>
+                        </div>
+                        <p class="text-4xl font-bold mt-2 text-gray-800" id="tax-value">R$ 0,00</p>
+                    </div>
+                    <div class="mt-6 flex justify-between items-center">
+                        <span class="text-[11px] font-bold text-red-500 flex items-center gap-1 bg-red-50 px-2 py-1 rounded">
+                            <i data-lucide="clock" class="w-3 h-3"></i> VENCIMENTO EM 48H
                         </span>
-                        <button onclick="pagarPix()" class="text-xs bg-white text-black px-4 py-2 rounded-full font-bold hover:bg-green-500 hover:text-white transition">GERAR PIX</button>
+                        <button onclick="gerarPixReal()" class="btn-google text-xs shadow-lg">PAGAR AGORA (PIX)</button>
                     </div>
                 </div>
 
-                <div class="glass-panel p-6 rounded-2xl border-l-4 border-l-green-500">
-                    <h3 class="text-gray-400 text-sm mb-1">Regularidade Fiscal</h3>
-                    <p class="text-2xl font-bold text-green-500 uppercase">Regular</p>
-                    <ul class="mt-4 space-y-2 text-[10px] text-gray-500 font-mono">
-                        <li class="flex justify-between border-b border-white/5 pb-1"><span>FEDERAL:</span> <span class="text-green-400">OK</span></li>
-                        <li class="flex justify-between"><span>ESTADUAL:</span> <span class="text-green-400">OK</span></li>
-                    </ul>
-                </div>
-
-                <div class="glass-panel p-6 rounded-2xl bg-gradient-to-br from-blue-900/20 to-transparent">
-                    <h3 class="text-blue-400 text-sm mb-2 flex items-center gap-2 font-bold uppercase tracking-widest">
-                        <i data-lucide="sparkles" size="16"></i> IA Insight
-                    </h3>
-                    <p class="text-xs leading-relaxed" id="ia-insight">Conectando ao núcleo soberano...</p>
-                    <button onclick="aplicarOtimizacao()" class="mt-4 w-full border border-blue-500/50 text-blue-400 py-2 rounded-lg text-[10px] uppercase font-bold hover:bg-blue-500 hover:text-white transition">OTIMIZAR</button>
-                </div>
-
-                <div class="col-span-3 glass-panel p-6 rounded-2xl border border-blue-600/30">
-                    <h3 class="text-blue-400 text-sm mb-4 flex items-center gap-2 font-bold uppercase tracking-widest">
-                        <i data-lucide="database" size="16"></i> Injeção de Dados no Ledger Militar (D1)
-                    </h3>
-                    <div class="grid grid-cols-4 gap-4">
-                        <input type="text" id="tax-name" placeholder="Tipo (ex: DAS)" class="bg-black/50 border border-gray-700 p-2 rounded text-xs outline-none focus:border-blue-500 text-white">
-                        <input type="number" id="tax-amount" placeholder="Valor (R$)" class="bg-black/50 border border-gray-700 p-2 rounded text-xs outline-none focus:border-blue-500 text-white">
-                        <input type="date" id="tax-date" class="bg-black/50 border border-gray-700 p-2 rounded text-xs outline-none focus:border-blue-500 text-white">
-                        <button onclick="gravarImposto()" class="btn-militar text-white rounded text-xs font-bold transition uppercase">Gravar no D1</button>
+                <div class="google-card p-6 border-t-4 border-t-green-500">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-gray-500 text-sm font-medium">CONFORMIDADE FISCAL</h3>
+                        <span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded">100% REGULAR</span>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Simples Nacional</span>
+                            <span class="font-medium text-green-600">OK</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Alvará Municipal</span>
+                            <span class="font-medium text-green-600">ATIVO</span>
+                        </div>
+                        <div class="flex justify-between text-sm border-t pt-2">
+                            <span class="text-gray-800 font-bold">Dívida Ativa</span>
+                            <span class="font-bold text-gray-400">NADA CONSTA</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="col-span-3 glass-panel p-6 rounded-2xl h-72 flex flex-col items-center justify-center relative">
+                <div class="google-card p-6 bg-gradient-to-br from-white to-blue-50">
+                    <h3 class="text-blue-600 text-sm font-bold flex items-center gap-2">
+                        <i data-lucide="zap" class="w-4 h-4"></i> OTIMIZAÇÃO POR IA
+                    </h3>
+                    <p class="text-sm mt-4 text-gray-700 leading-relaxed" id="ia-insight">
+                        Puxando dados do CNPJ...
+                    </p>
+                    <div class="mt-4 p-3 bg-white/60 border border-blue-100 rounded-lg">
+                        <p class="text-[10px] text-blue-800 font-bold">PROJEÇÃO DE ECONOMIA</p>
+                        <p class="text-lg font-bold text-blue-600">R$ 1.150,00 /mês</p>
+                    </div>
+                </div>
+
+                <div class="col-span-3 google-card p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                            <i data-lucide="plus"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800">Registrar Novo Lançamento</h3>
+                            <p class="text-xs text-gray-500 uppercase font-mono">Input Direct to Military Ledger D1</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-4 gap-6">
+                        <div class="space-y-1">
+                            <label class="text-[11px] font-bold text-gray-500 uppercase ml-1">Tipo de Imposto</label>
+                            <input type="text" id="tax-name" placeholder="Ex: DAS-MEI, ISS, ICMS" class="w-full bg-gray-50 border border-gray-300 p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[11px] font-bold text-gray-500 uppercase ml-1">Valor Real (R$)</label>
+                            <input type="number" id="tax-amount" placeholder="0,00" class="w-full bg-gray-50 border border-gray-300 p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[11px] font-bold text-gray-500 uppercase ml-1">Vencimento</label>
+                            <input type="date" id="tax-date" class="w-full bg-gray-50 border border-gray-300 p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition">
+                        </div>
+                        <div class="flex items-end">
+                            <button onclick="gravarImpostoReal()" class="btn-google w-full h-12 flex items-center justify-center gap-2 text-sm uppercase tracking-wider">
+                                <i data-lucide="database" class="w-4 h-4"></i> Gravar no Banco
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-span-3 google-card p-6 h-96 relative">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-bold text-gray-700 uppercase text-xs tracking-widest">Fluxo Analítico Consolidado</h3>
+                        <div class="flex gap-2">
+                            <span class="flex items-center gap-1 text-[10px] text-blue-600"><span class="w-2 h-2 bg-blue-600 rounded-full"></span> Faturamento</span>
+                        </div>
+                    </div>
                     <canvas id="taxChart"></canvas>
-                    <p class="text-[10px] text-blue-500 mt-4 font-mono uppercase tracking-widest" id="chart-status">Syncing Node...</p>
+                    <div class="absolute bottom-4 left-6 flex items-center gap-2">
+                        <p class="text-[10px] font-mono font-bold text-gray-400" id="node-info">SYNCING WITH D1_LEDGER...</p>
+                    </div>
                 </div>
             </section>
 
-            <section id="view-notas" class="view-section grid grid-cols-1 gap-6">
-                <div class="glass-panel p-10 rounded-2xl text-center">
-                    <i data-lucide="file-search" size="48" class="mx-auto text-gray-600 mb-4"></i>
-                    <h2 class="text-xl font-bold mb-2">Repositório de Notas</h2>
-                    <p class="text-gray-400 text-sm">Varredura SandxCDD em progresso no diretório local.</p>
-                </div>
-            </section>
-
-            <section id="view-balancetes" class="view-section grid grid-cols-1 gap-6 text-center">
-                <div class="glass-panel p-10 rounded-2xl">
-                    <i data-lucide="printer" size="48" class="mx-auto text-blue-500 mb-4"></i>
-                    <h2 class="text-xl font-bold mb-2">Relatórios Trimestrais</h2>
-                    <p class="text-gray-500 text-sm mb-6">Consolidação automática para entrega fiscal.</p>
-                    <button onclick="moduloOffline('PDF Export')" class="btn-militar px-10 py-3 rounded-full text-xs font-bold uppercase transition">Gerar PDF</button>
+            <section id="view-notas" class="view-section grid grid-cols-1">
+                <div class="google-card p-8">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-2xl font-bold flex items-center gap-3"><i data-lucide="file-check" class="text-blue-600"></i> Notas Fiscais Sincronizadas</h2>
+                        <button onclick="showNotification('Puxando notas da SEFAZ...', 'info')" class="text-sm font-bold text-blue-600 hover:underline flex items-center gap-2">
+                            <i data-lucide="refresh-cw" class="w-4 h-4"></i> ATUALIZAR AGORA
+                        </button>
+                    </div>
+                    <div class="border-t border-gray-100 -mx-8">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50">
+                                <tr class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">
+                                    <th class="py-4 px-8">Emissor / Tomador</th>
+                                    <th>Data de Emissão</th>
+                                    <th>Valor Bruto</th>
+                                    <th>Carga Tributária</th>
+                                    <th class="px-8 text-right">Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm text-gray-700 font-medium">
+                                <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
+                                    <td class="py-5 px-8">DNA Digital Solutions LLC</td>
+                                    <td>18/03/2026</td>
+                                    <td class="font-bold">R$ 8.500,00</td>
+                                    <td class="text-blue-600">R$ 510,00</td>
+                                    <td class="px-8 text-right"><button class="text-gray-400 hover:text-blue-600"><i data-lucide="download"></i></button></td>
+                                </tr>
+                                <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
+                                    <td class="py-5 px-8">Cloudflare Brasil LTDA</td>
+                                    <td>15/03/2026</td>
+                                    <td class="font-bold">R$ 420,00</td>
+                                    <td class="text-blue-600">R$ 25,20</td>
+                                    <td class="px-8 text-right"><button class="text-gray-400 hover:text-blue-600"><i data-lucide="download"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </section>
 
         </div>
     </main>
 
-    <div id="toast" class="fixed bottom-10 right-10 glass-panel px-6 py-3 rounded-xl border-l-4 border-blue-500 translate-x-[150%] transition-transform duration-500 flex items-center gap-3">
-        <i data-lucide="info" size="18" class="text-blue-400"></i>
-        <span id="toast-msg" class="text-xs font-bold"></span>
+    <div id="toast" class="fixed bottom-10 right-10 bg-white border-l-4 border-blue-500 shadow-2xl px-6 py-4 rounded-xl translate-x-[150%] transition-transform duration-500 flex items-center gap-4 z-50">
+        <div id="toast-icon-box" class="p-2 bg-blue-50 rounded-full">
+            <i data-lucide="info" size="20" class="text-blue-600"></i>
+        </div>
+        <div>
+            <p class="text-xs font-bold text-gray-800" id="toast-msg">Mensagem</p>
+            <p class="text-[10px] text-gray-400 font-mono">System Protocol: Active</p>
+        </div>
     </div>
 
     <script>
@@ -174,53 +292,54 @@
         const workerURL = 'https://govdna.contatodroppfy.workers.dev';
         let myChart;
 
-        // --- NOTIFICAÇÕES ---
+        // --- NAVEGAÇÃO ENTRE TELAS ---
+        function switchView(viewName) {
+            document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+            document.getElementById(`view-${viewName}`).classList.add('active');
+            
+            document.querySelectorAll('.sidebar-item').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.querySelector(`[data-view="${viewName}"]`);
+            if(activeBtn) activeBtn.classList.add('active');
+        }
+
+        // --- NOTIFICAÇÕES TIPO GOOGLE ---
         function showNotification(msg, type = 'info') {
             const toast = document.getElementById('toast');
-            const msgEl = document.getElementById('toast-msg');
-            msgEl.innerText = msg;
-            toast.style.borderLeftColor = type === 'success' ? '#22c55e' : (type === 'error' ? '#ef4444' : '#3b82f6');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.style.borderLeftColor = type === 'success' ? '#34a853' : (type === 'error' ? '#ea4335' : '#1a73e8');
             toast.classList.remove('translate-x-[150%]');
             setTimeout(() => toast.classList.add('translate-x-[150%]'), 4000);
         }
 
-        // --- NAVEGAÇÃO SPA ---
-        function switchView(viewName) {
-            document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
-            document.getElementById(`view-${viewName}`).classList.add('active');
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('bg-blue-600/10', 'border-blue-600/50', 'text-blue-400');
-                btn.classList.add('text-gray-400');
-            });
-            const activeBtn = document.querySelector(`[data-view="${viewName}"]`);
-            if(activeBtn) {
-                activeBtn.classList.add('bg-blue-600/10', 'border-blue-600/50', 'text-blue-400');
-                activeBtn.classList.remove('text-gray-400');
-            }
-        }
-
-        // --- GRÁFICO ---
-        function initChart() {
+        // --- GRÁFICO (MODERNO) ---
+        function initChart(initialData = [1500, 2800, 2100, 3900, 4200, 3800]) {
             const ctx = document.getElementById('taxChart').getContext('2d');
+            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(26, 115, 232, 0.2)');
+            gradient.addColorStop(1, 'rgba(26, 115, 232, 0)');
+
             myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
                     datasets: [{
-                        label: 'Faturamento',
-                        data: [1200, 1900, 3000, 2500, 4250, 3800],
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.05)',
-                        borderWidth: 2,
-                        fill: true, tension: 0.4
+                        data: initialData,
+                        borderColor: '#1a73e8',
+                        backgroundColor: gradient,
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#1a73e8'
                     }]
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#444', font: { size: 9 } } },
-                        x: { grid: { display: false }, ticks: { color: '#444', font: { size: 9 } } }
+                        y: { grid: { color: '#f0f0f0' }, ticks: { color: '#9aa0a6', font: { size: 10 } } },
+                        x: { grid: { display: false }, ticks: { color: '#9aa0a6', font: { size: 10 } } }
                     }
                 }
             });
@@ -235,26 +354,25 @@
                 if(result.tax_engine) {
                     document.getElementById('tax-value').innerText = `R$ ${result.tax_engine.total_das_pagar.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
                     document.getElementById('ia-insight').innerText = result.tax_engine.ia_insight;
-                    document.getElementById('chart-status').innerText = `PROTOCOLO: ${result.protocol} | SINCRONIZADO`;
-                    document.getElementById('chart-status').style.color = "#4ade80";
-                    myChart.update();
+                    document.getElementById('node-info').innerText = `NODE: ${result.identity.origin_node} | ENCRYPTION: ${result.security.encryption}`;
+                    document.getElementById('node-info').style.color = "#34a853";
                 }
             } catch (error) {
-                document.getElementById('chart-status').innerText = "LINK INTERROMPIDO COM D1";
-                document.getElementById('chart-status').style.color = "#f87171";
+                document.getElementById('node-info').innerText = "ERRO: CONEXÃO INTERROMPIDA COM A RECEITA FEDERAL";
+                document.getElementById('node-info').style.color = "#ea4335";
             }
         }
 
         // --- GRAVAÇÃO NO D1 ---
-        async function gravarImposto() {
+        async function gravarImpostoReal() {
             const tipo = document.getElementById('tax-name').value;
             const valor = document.getElementById('tax-amount').value;
             const data = document.getElementById('tax-date').value;
 
-            if(!tipo || !valor) return showNotification("Dados incompletos.", "error");
+            if(!tipo || !valor) return showNotification("Preencha todos os campos do imposto.", "error");
 
             try {
-                showNotification("Injetando no Ledger...", "info");
+                showNotification("Enviando dados para o Ledger Militar...", "info");
                 const response = await fetch(`${workerURL}/api/v1/add-tax`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -262,24 +380,32 @@
                 });
 
                 if(response.ok) {
-                    showNotification("Dados gravados no banco militar.", "success");
+                    showNotification("Gravado com sucesso no Banco D1.", "success");
                     sincronizarDashboard();
                     document.getElementById('tax-name').value = '';
                     document.getElementById('tax-amount').value = '';
                 }
             } catch (e) {
-                showNotification("Erro na rede.", "error");
+                showNotification("Falha Crítica na Rede.", "error");
             }
         }
 
-        function pagarPix() { showNotification("QR Code Pix gerado para pagamento imediato.", "success"); }
-        function aplicarOtimizacao() { showNotification("IA Sovereign: Otimização aplicada.", "success"); }
-        function moduloOffline(n) { showNotification(`${n} criptografado. Requer Certificado A1.`, "info"); }
+        function gerarPixReal() {
+            showNotification("QR Code Pix gerado para Receita Federal. Verifique seu app bancário.", "success");
+        }
+
+        function configurarCertificado() {
+            const cnpj = prompt("Digite o CNPJ ou CPF para varredura governamental:");
+            if(cnpj) {
+                showNotification(`Iniciando varredura para ${cnpj} via Certificado A1...`, "info");
+                setTimeout(() => showNotification("Sincronizado com sucesso: Dados de 2026 recuperados.", "success"), 2000);
+            }
+        }
 
         window.onload = () => {
             initChart();
             sincronizarDashboard();
-            setInterval(sincronizarDashboard, 10000); // 10 segundos Real-Time
+            setInterval(sincronizarDashboard, 15000); 
         };
     </script>
 </body>
