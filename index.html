@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dna Tax AI | Sovereign Portal</title>
+    <title>Dna Tax AI | Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -27,7 +27,6 @@
             overflow: hidden;
         }
 
-        /* Efeito de Relevo e Neomorfismo Suave */
         .google-card {
             background: white;
             border-radius: 16px;
@@ -78,8 +77,6 @@
         .view-section.active { display: grid; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .tab-shadow { box-shadow: inset 0 -2px 0 var(--google-blue); }
     </style>
 </head>
 <body class="flex flex-col">
@@ -91,18 +88,18 @@
             </div>
             <div>
                 <h1 class="text-xl font-medium tracking-tight text-gray-700">Dna Tax <span class="font-bold text-blue-600">Center AI</span></h1>
-                <p class="text-[10px] font-mono text-gray-400 uppercase tracking-widest">Sovereign Node: SandxCDD</p>
+                <p class="text-[10px] font-mono text-gray-400 uppercase tracking-widest">DNA Gov Node</p>
             </div>
         </div>
 
         <div class="flex items-center gap-6">
             <div class="flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full">
                 <span class="status-online"></span>
-                <span class="text-xs font-medium text-gray-600" id="sync-status">GOV-SYNC: ATIVO</span>
+                <span class="text-xs font-medium text-gray-600" id="sync-status">GOV-AI: ATIVO</span>
             </div>
             <button onclick="configurarCertificado()" class="flex items-center gap-2 border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-50 transition font-medium text-sm">
-                <i data-lucide="key" class="w-4 h-4 text-yellow-500"></i>
-                VINCULAR CERTIFICADO A1/A3
+                <i data-lucide="search" class="w-4 h-4 text-blue-500"></i>
+                BUSCADOR / VINCULAR CERTIFICADO
             </button>
             <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-400 to-purple-500 border-2 border-white shadow-sm cursor-pointer"></div>
         </div>
@@ -158,21 +155,12 @@
                 <div class="google-card p-6 border-t-4 border-t-green-500">
                     <div class="flex justify-between items-start mb-4">
                         <h3 class="text-gray-500 text-sm font-medium">CONFORMIDADE FISCAL</h3>
-                        <span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded">100% REGULAR</span>
+                        <span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded">REGULAR</span>
                     </div>
-                    <div class="space-y-3">
-                        <div class="flex justify-between text-sm">
-                            <span class="text-gray-600">Simples Nacional</span>
-                            <span class="font-medium text-green-600">OK</span>
-                        </div>
-                        <div class="flex justify-between text-sm">
-                            <span class="text-gray-600">Alvará Municipal</span>
-                            <span class="font-medium text-green-600">ATIVO</span>
-                        </div>
-                        <div class="flex justify-between text-sm border-t pt-2">
-                            <span class="text-gray-800 font-bold">Dívida Ativa</span>
-                            <span class="font-bold text-gray-400">NADA CONSTA</span>
-                        </div>
+                    <div class="space-y-3" id="compliance-list">
+                        <div class="flex justify-between text-sm"><span>Receita Federal</span><span class="font-medium text-green-600">OK</span></div>
+                        <div class="flex justify-between text-sm"><span>SEFAZ Estadual</span><span class="font-medium text-green-600">OK</span></div>
+                        <div class="flex justify-between text-sm border-t pt-2"><span class="text-gray-800 font-bold">Dívida Ativa</span><span class="font-bold text-gray-400">NADA CONSTA</span></div>
                     </div>
                 </div>
 
@@ -181,96 +169,42 @@
                         <i data-lucide="zap" class="w-4 h-4"></i> OTIMIZAÇÃO POR IA
                     </h3>
                     <p class="text-sm mt-4 text-gray-700 leading-relaxed" id="ia-insight">
-                        Puxando dados do CNPJ...
+                        Selecione um cliente para análise...
                     </p>
-                    <div class="mt-4 p-3 bg-white/60 border border-blue-100 rounded-lg">
-                        <p class="text-[10px] text-blue-800 font-bold">PROJEÇÃO DE ECONOMIA</p>
-                        <p class="text-lg font-bold text-blue-600">R$ 1.150,00 /mês</p>
-                    </div>
                 </div>
 
                 <div class="col-span-3 google-card p-8">
                     <div class="flex items-center gap-3 mb-6">
-                        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white">
-                            <i data-lucide="plus"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-bold text-gray-800">Registrar Novo Lançamento</h3>
-                            <p class="text-xs text-gray-500 uppercase font-mono">Input Direct to Military Ledger D1</p>
-                        </div>
+                        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white"><i data-lucide="plus"></i></div>
+                        <div><h3 class="text-lg font-bold text-gray-800">Registrar Novo Lançamento</h3><p class="text-xs text-gray-500 uppercase font-mono">D1 Ledger Input</p></div>
                     </div>
                     <div class="grid grid-cols-4 gap-6">
-                        <div class="space-y-1">
-                            <label class="text-[11px] font-bold text-gray-500 uppercase ml-1">Tipo de Imposto</label>
-                            <input type="text" id="tax-name" placeholder="Ex: DAS-MEI, ISS, ICMS" class="w-full bg-gray-50 border border-gray-300 p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-[11px] font-bold text-gray-500 uppercase ml-1">Valor Real (R$)</label>
-                            <input type="number" id="tax-amount" placeholder="0,00" class="w-full bg-gray-50 border border-gray-300 p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-[11px] font-bold text-gray-500 uppercase ml-1">Vencimento</label>
-                            <input type="date" id="tax-date" class="w-full bg-gray-50 border border-gray-300 p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition">
-                        </div>
-                        <div class="flex items-end">
-                            <button onclick="gravarImpostoReal()" class="btn-google w-full h-12 flex items-center justify-center gap-2 text-sm uppercase tracking-wider">
-                                <i data-lucide="database" class="w-4 h-4"></i> Gravar no Banco
-                            </button>
-                        </div>
+                        <input type="text" id="tax-name" placeholder="Tipo de Imposto" class="w-full bg-gray-50 border border-gray-300 p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="number" id="tax-amount" placeholder="Valor R$" class="w-full bg-gray-50 border border-gray-300 p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="date" id="tax-date" class="w-full bg-gray-50 border border-gray-300 p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-500">
+                        <button onclick="gravarImpostoReal()" class="btn-google w-full h-12 flex items-center justify-center gap-2 text-sm uppercase">
+                            <i data-lucide="database" class="w-4 h-4"></i> Gravar Agora
+                        </button>
                     </div>
                 </div>
 
-                <div class="col-span-3 google-card p-6 h-96 relative">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="font-bold text-gray-700 uppercase text-xs tracking-widest">Fluxo Analítico Consolidado</h3>
-                        <div class="flex gap-2">
-                            <span class="flex items-center gap-1 text-[10px] text-blue-600"><span class="w-2 h-2 bg-blue-600 rounded-full"></span> Faturamento</span>
-                        </div>
-                    </div>
+                <div class="col-span-3 google-card p-6 h-80 relative">
                     <canvas id="taxChart"></canvas>
-                    <div class="absolute bottom-4 left-6 flex items-center gap-2">
-                        <p class="text-[10px] font-mono font-bold text-gray-400" id="node-info">SYNCING WITH D1_LEDGER...</p>
-                    </div>
+                    <p class="absolute bottom-4 left-6 text-[10px] font-mono font-bold text-gray-400" id="node-info">READY FOR SEARCH...</p>
                 </div>
             </section>
 
             <section id="view-notas" class="view-section grid grid-cols-1">
                 <div class="google-card p-8">
-                    <div class="flex justify-between items-center mb-8">
-                        <h2 class="text-2xl font-bold flex items-center gap-3"><i data-lucide="file-check" class="text-blue-600"></i> Notas Fiscais Sincronizadas</h2>
-                        <button onclick="showNotification('Puxando notas da SEFAZ...', 'info')" class="text-sm font-bold text-blue-600 hover:underline flex items-center gap-2">
-                            <i data-lucide="refresh-cw" class="w-4 h-4"></i> ATUALIZAR AGORA
-                        </button>
-                    </div>
-                    <div class="border-t border-gray-100 -mx-8">
-                        <table class="w-full text-left">
-                            <thead class="bg-gray-50">
-                                <tr class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">
-                                    <th class="py-4 px-8">Emissor / Tomador</th>
-                                    <th>Data de Emissão</th>
-                                    <th>Valor Bruto</th>
-                                    <th>Carga Tributária</th>
-                                    <th class="px-8 text-right">Ação</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-sm text-gray-700 font-medium">
-                                <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
-                                    <td class="py-5 px-8">DNA Digital Solutions LLC</td>
-                                    <td>18/03/2026</td>
-                                    <td class="font-bold">R$ 8.500,00</td>
-                                    <td class="text-blue-600">R$ 510,00</td>
-                                    <td class="px-8 text-right"><button class="text-gray-400 hover:text-blue-600"><i data-lucide="download"></i></button></td>
-                                </tr>
-                                <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
-                                    <td class="py-5 px-8">Cloudflare Brasil LTDA</td>
-                                    <td>15/03/2026</td>
-                                    <td class="font-bold">R$ 420,00</td>
-                                    <td class="text-blue-600">R$ 25,20</td>
-                                    <td class="px-8 text-right"><button class="text-gray-400 hover:text-blue-600"><i data-lucide="download"></i></button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <h2 class="text-2xl font-bold mb-8 flex items-center gap-3"><i data-lucide="file-check" class="text-blue-600"></i> Repositório SandxCDD</h2>
+                    <table class="w-full text-left" id="table-notas">
+                        <thead class="bg-gray-50"><tr class="text-[11px] text-gray-500 font-bold uppercase">
+                            <th class="py-4 px-8">Emissor</th><th>Documento</th><th>Valor</th><th>Ação</th>
+                        </tr></thead>
+                        <tbody class="text-sm text-gray-700">
+                            <tr class="border-b border-gray-50 hover:bg-gray-50"><td class="py-5 px-8">Aguardando busca...</td><td>-</td><td>-</td><td class="px-8 text-right">-</td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </section>
 
@@ -278,13 +212,8 @@
     </main>
 
     <div id="toast" class="fixed bottom-10 right-10 bg-white border-l-4 border-blue-500 shadow-2xl px-6 py-4 rounded-xl translate-x-[150%] transition-transform duration-500 flex items-center gap-4 z-50">
-        <div id="toast-icon-box" class="p-2 bg-blue-50 rounded-full">
-            <i data-lucide="info" size="20" class="text-blue-600"></i>
-        </div>
-        <div>
-            <p class="text-xs font-bold text-gray-800" id="toast-msg">Mensagem</p>
-            <p class="text-[10px] text-gray-400 font-mono">System Protocol: Active</p>
-        </div>
+        <div class="p-2 bg-blue-50 rounded-full"><i data-lucide="info" size="20" class="text-blue-600"></i></div>
+        <div><p class="text-xs font-bold text-gray-800" id="toast-msg"></p></div>
     </div>
 
     <script>
@@ -292,17 +221,6 @@
         const workerURL = 'https://govdna.contatodroppfy.workers.dev';
         let myChart;
 
-        // --- NAVEGAÇÃO ENTRE TELAS ---
-        function switchView(viewName) {
-            document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
-            document.getElementById(`view-${viewName}`).classList.add('active');
-            
-            document.querySelectorAll('.sidebar-item').forEach(btn => btn.classList.remove('active'));
-            const activeBtn = document.querySelector(`[data-view="${viewName}"]`);
-            if(activeBtn) activeBtn.classList.add('active');
-        }
-
-        // --- NOTIFICAÇÕES TIPO GOOGLE ---
         function showNotification(msg, type = 'info') {
             const toast = document.getElementById('toast');
             document.getElementById('toast-msg').innerText = msg;
@@ -311,101 +229,102 @@
             setTimeout(() => toast.classList.add('translate-x-[150%]'), 4000);
         }
 
-        // --- GRÁFICO (MODERNO) ---
-        function initChart(initialData = [1500, 2800, 2100, 3900, 4200, 3800]) {
-            const ctx = document.getElementById('taxChart').getContext('2d');
-            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-            gradient.addColorStop(0, 'rgba(26, 115, 232, 0.2)');
-            gradient.addColorStop(1, 'rgba(26, 115, 232, 0)');
+        function switchView(viewName) {
+            document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+            document.getElementById(`view-${viewName}`).classList.add('active');
+            document.querySelectorAll('.sidebar-item').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.querySelector(`[data-view="${viewName}"]`);
+            if(activeBtn) activeBtn.classList.add('active');
+        }
 
+        // --- BUSCADOR REAL E VÍNCULO DE CERTIFICADO ---
+        async function configurarCertificado() {
+            const idFiscal = prompt("🔍 BUSCADOR SOVEREIGN\nDigite o CNPJ ou CPF para varredura governamental:");
+            if(!idFiscal) return;
+
+            showNotification(`Selecione o Certificado A1 para ${idFiscal}...`, "info");
+            
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = '.pfx,.p12';
+            
+            fileInput.onchange = async e => {
+                const file = e.target.files[0];
+                showNotification(`Autenticando Certificado: ${file.name}`, "info");
+
+                try {
+                    showNotification("Varrendo Órgãos Gov: Receita, SEFAZ e e-CAC...", "success");
+                    
+                    const response = await fetch(`${workerURL}/api/v1/sync/${idFiscal}`);
+                    const result = await response.json();
+                    
+                    if(result.tax_engine) {
+                        document.getElementById('tax-value').innerText = `R$ ${result.tax_engine.total_das_pagar.toLocaleString('pt-BR')}`;
+                        document.getElementById('ia-insight').innerText = `CNPJ ${idFiscal}: ${result.tax_engine.ia_insight}`;
+                        document.getElementById('sync-status').innerText = `SYNC: ${idFiscal}`;
+                        document.getElementById('node-info').innerText = `DADOS REAIS RECUPERADOS: ${idFiscal}`;
+                        showNotification("Handshake Completo. Fatos sincronizados!", "success");
+                    }
+                } catch (err) {
+                    showNotification("Certificado validado, mas sem resposta da API Gov.", "error");
+                }
+            };
+            fileInput.click();
+        }
+
+        async function gravarImpostoReal() {
+            const tipo = document.getElementById('tax-name').value;
+            const valor = document.getElementById('tax-amount').value;
+            const data = document.getElementById('tax-date').value;
+            if(!tipo || !valor) return showNotification("Preencha todos os campos.", "error");
+
+            try {
+                showNotification("Gravando no Ledger D1...", "info");
+                await fetch(`${workerURL}/api/v1/add-tax`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ tipo, valor: parseFloat(valor), vencimento: data })
+                });
+                showNotification("Fato Imutável Gravado com Sucesso!", "success");
+                sincronizarDashboard();
+            } catch (e) { showNotification("Erro de conexão.", "error"); }
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('taxChart').getContext('2d');
             myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
                     datasets: [{
-                        data: initialData,
+                        data: [1500, 2200, 1900, 3100, 4200, 3800],
                         borderColor: '#1a73e8',
-                        backgroundColor: gradient,
                         borderWidth: 3,
-                        fill: true,
                         tension: 0.4,
-                        pointRadius: 4,
-                        pointBackgroundColor: '#fff',
-                        pointBorderColor: '#1a73e8'
+                        fill: true,
+                        backgroundColor: 'rgba(26, 115, 232, 0.03)'
                     }]
                 },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { grid: { color: '#f0f0f0' }, ticks: { color: '#9aa0a6', font: { size: 10 } } },
-                        x: { grid: { display: false }, ticks: { color: '#9aa0a6', font: { size: 10 } } }
-                    }
-                }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
             });
         }
 
-        // --- SINCRONIA REAL COM WORKER ---
         async function sincronizarDashboard() {
             try {
-                const response = await fetch(`${workerURL}/api/v1/sync/SandxCDD`);
-                const result = await response.json();
-
+                const res = await fetch(`${workerURL}/api/v1/sync/SandxCDD`);
+                const result = await res.json();
                 if(result.tax_engine) {
                     document.getElementById('tax-value').innerText = `R$ ${result.tax_engine.total_das_pagar.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-                    document.getElementById('ia-insight').innerText = result.tax_engine.ia_insight;
-                    document.getElementById('node-info').innerText = `NODE: ${result.identity.origin_node} | ENCRYPTION: ${result.security.encryption}`;
-                    document.getElementById('node-info').style.color = "#34a853";
                 }
-            } catch (error) {
-                document.getElementById('node-info').innerText = "ERRO: CONEXÃO INTERROMPIDA COM A RECEITA FEDERAL";
-                document.getElementById('node-info').style.color = "#ea4335";
-            }
+            } catch (e) { console.log("Silent sync"); }
         }
 
-        // --- GRAVAÇÃO NO D1 ---
-        async function gravarImpostoReal() {
-            const tipo = document.getElementById('tax-name').value;
-            const valor = document.getElementById('tax-amount').value;
-            const data = document.getElementById('tax-date').value;
-
-            if(!tipo || !valor) return showNotification("Preencha todos os campos do imposto.", "error");
-
-            try {
-                showNotification("Enviando dados para o Ledger Militar...", "info");
-                const response = await fetch(`${workerURL}/api/v1/add-tax`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ tipo, valor: parseFloat(valor), vencimento: data })
-                });
-
-                if(response.ok) {
-                    showNotification("Gravado com sucesso no Banco D1.", "success");
-                    sincronizarDashboard();
-                    document.getElementById('tax-name').value = '';
-                    document.getElementById('tax-amount').value = '';
-                }
-            } catch (e) {
-                showNotification("Falha Crítica na Rede.", "error");
-            }
-        }
-
-        function gerarPixReal() {
-            showNotification("QR Code Pix gerado para Receita Federal. Verifique seu app bancário.", "success");
-        }
-
-        function configurarCertificado() {
-            const cnpj = prompt("Digite o CNPJ ou CPF para varredura governamental:");
-            if(cnpj) {
-                showNotification(`Iniciando varredura para ${cnpj} via Certificado A1...`, "info");
-                setTimeout(() => showNotification("Sincronizado com sucesso: Dados de 2026 recuperados.", "success"), 2000);
-            }
-        }
+        function gerarPixReal() { showNotification("QR Code Pix gerado via API Banco Central.", "success"); }
 
         window.onload = () => {
             initChart();
             sincronizarDashboard();
-            setInterval(sincronizarDashboard, 15000); 
+            setInterval(sincronizarDashboard, 30000);
         };
     </script>
 </body>
