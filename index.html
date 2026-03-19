@@ -8,174 +8,170 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap');
-        body { font-family: 'Google Sans', sans-serif; background-color: #f8f9fa; height: 100vh; overflow: hidden; }
-        .google-card { background: white; border-radius: 16px; box-shadow: 0 1px 3px rgba(60,64,67,0.3); border: 1px solid #dadce0; }
-        .sidebar-item { border-radius: 0 24px 24px 0; display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1.5rem; color: #5f6368; width: 100%; transition: 0.2s; cursor: pointer; border: none; background: transparent; }
-        .sidebar-item.active { background-color: #e8f0fe; color: #1a73e8; font-weight: 500; }
-        .view-section { display: none; height: 100%; animation: fadeIn 0.4s ease-out; }
-        .view-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        body { font-family: 'Google Sans', sans-serif; background: #f8f9fa; height: 100vh; overflow: hidden; }
+        .google-card { background: white; border-radius: 12px; border: 1px solid #dadce0; box-shadow: 0 1px 2px rgba(60,64,67,0.3); }
+        .sidebar-item { display: flex; align-items: center; gap: 12px; padding: 12px 24px; border-radius: 0 24px 24px 0; color: #5f6368; cursor: pointer; transition: 0.2s; }
+        .sidebar-item.active { background: #e8f0fe; color: #1a73e8; font-weight: 500; }
         .kpi-fill { height: 100%; width: 0%; background: #1a73e8; transition: width 1s ease-in-out; }
     </style>
 </head>
 <body class="flex flex-col">
 
-    <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shrink-0 z-20">
-        <div class="flex items-center gap-4">
-            <i data-lucide="shield-check" class="text-blue-600 w-8 h-8"></i>
-            <h1 class="text-xl font-medium">Dna Tax <span class="font-bold text-blue-600">Center AI</span></h1>
+    <header class="h-16 bg-white border-b flex items-center justify-between px-6 z-20">
+        <div class="flex items-center gap-3">
+            <i data-lucide="shield-check" class="text-blue-600"></i>
+            <h1 class="text-lg font-medium text-gray-700">Dna Tax <span class="font-bold text-blue-600">Center AI</span></h1>
         </div>
         <div class="flex items-center gap-4">
-            <div id="gps-status" class="text-[10px] font-bold text-gray-400 font-mono">COORD: BUSCANDO...</div>
-            <input type="text" id="cnpj-input" placeholder="00.000.000/0000-00" class="border p-2 rounded-lg text-sm w-48 outline-none focus:ring-2 focus:ring-blue-500">
-            <button onclick="buscarEmpresa()" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold">BUSCAR GOV</button>
+            <span id="geo-tag" class="text-[10px] font-mono text-gray-400">GEO: BUSCANDO...</span>
+            <input type="text" id="main-search" placeholder="00.000.000/0000-00" class="border p-2 rounded-lg text-sm w-48 outline-none focus:border-blue-500">
+            <button onclick="buscarGov()" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md hover:bg-blue-700">BUSCAR GOV</button>
         </div>
     </header>
 
     <main class="flex flex-1 overflow-hidden">
-        <aside class="w-64 bg-white border-r border-gray-200 py-6 pr-4 shrink-0">
-            <nav class="space-y-1">
-                <button onclick="switchView('dashboard')" id="nav-dashboard" class="sidebar-item active"><i data-lucide="layout-grid"></i> Dashboard</button>
-                <button onclick="switchView('clm')" id="nav-clm" class="sidebar-item"><i data-lucide="key"></i> Saúde Certificado</button>
-                <button onclick="switchView('config')" id="nav-config" class="sidebar-item"><i data-lucide="settings"></i> Configurações</button>
+        <aside class="w-64 bg-white border-r py-6 pr-4">
+            <nav>
+                <div onclick="switchView('dash')" id="n-dash" class="sidebar-item active"><i data-lucide="layout-grid"></i> Dashboard</div>
+                <div onclick="switchView('clm')" id="n-clm" class="sidebar-item"><i data-lucide="key"></i> Saúde Certificado</div>
+                <div onclick="switchView('config')" id="n-config" class="sidebar-item"><i data-lucide="settings"></i> Configurações</div>
             </nav>
         </aside>
 
-        <div class="flex-1 overflow-y-auto p-8">
-            <div id="view-dashboard" class="view-section active">
-                <div class="grid grid-cols-3 gap-8 mb-8">
+        <section class="flex-1 p-8 overflow-y-auto">
+            <div id="v-dash" class="view-section active">
+                <div class="grid grid-cols-3 gap-6 mb-8">
                     <div class="google-card p-6 border-t-4 border-t-blue-500">
-                        <h3 class="text-gray-500 text-xs font-bold uppercase">Total Devido (D1)</h3>
-                        <p class="text-4xl font-bold mt-2" id="total-val">R$ 0,00</p>
+                        <h3 class="text-gray-500 text-xs font-bold uppercase">Total D1 (Imutável)</h3>
+                        <p class="text-4xl font-bold mt-2" id="total-txt">R$ 0,00</p>
                     </div>
                     <div class="google-card p-6 border-t-4 border-t-green-500">
-                        <h3 class="text-gray-500 text-xs font-bold uppercase">Status de Autenticação</h3>
-                        <div id="auth-status-ui" class="mt-2 text-sm font-bold text-orange-500 italic">Aguardando Certificado...</div>
+                        <h3 class="text-gray-500 text-xs font-bold uppercase">Status Autenticação</h3>
+                        <p id="status-auth" class="mt-2 text-sm font-bold text-orange-500 italic">Aguardando Handshake...</p>
                     </div>
                     <div class="google-card p-6 border-t-4 border-t-indigo-500">
-                        <h3 class="text-indigo-600 text-xs font-bold uppercase">KPI de Latência (Eficácia)</h3>
-                        <div class="h-1.5 w-full bg-gray-100 rounded-full mt-4"><div id="latencia-bar" class="kpi-fill"></div></div>
-                        <p class="text-xs mt-1 font-mono" id="latencia-val">0ms</p>
+                        <h3 class="text-indigo-600 text-xs font-bold uppercase">Eficácia (Latência)</h3>
+                        <div class="h-1.5 w-full bg-gray-100 rounded-full mt-4"><div id="kpi-bar" class="kpi-fill"></div></div>
+                        <p class="text-xs mt-1 font-mono" id="kpi-val">0ms</p>
                     </div>
                 </div>
 
                 <div class="google-card p-8 mb-8">
-                    <div class="grid grid-cols-4 gap-4">
-                        <input type="text" id="tax-name" placeholder="Tipo de Imposto" class="border p-3 rounded-xl">
-                        <input type="number" id="tax-amount" placeholder="Valor R$" class="border p-3 rounded-xl">
-                        <input type="date" id="tax-date" class="border p-3 rounded-xl">
-                        <button onclick="gravarImpostoReal()" class="bg-blue-600 text-white rounded-xl font-bold">ASSINAR E GRAVAR</button>
+                    <div class="flex gap-4">
+                        <input type="text" id="t-name" placeholder="Tipo" class="border p-3 rounded-xl w-full">
+                        <input type="number" id="t-amount" placeholder="Valor" class="border p-3 rounded-xl w-full">
+                        <input type="date" id="t-date" class="border p-3 rounded-xl w-full">
+                        <button onclick="gravar()" class="bg-blue-600 text-white px-8 rounded-xl font-bold">GRAVAR</button>
                     </div>
                 </div>
-                <div class="google-card p-6 h-64"><canvas id="taxChart"></canvas></div>
+                <div class="google-card p-6 h-64"><canvas id="mainChart"></canvas></div>
             </div>
 
-            <div id="view-clm" class="view-section">
+            <div id="v-clm" class="view-section">
                 <div class="google-card p-8">
-                    <h2 class="text-xl font-bold mb-4">Métricas de Soberania Digital (SandxCDD)</h2>
-                    <div id="clm-log" class="font-mono text-[10px] bg-black text-green-400 p-4 rounded-lg overflow-y-auto h-64">
-                        > Sistema Inicializado...
+                    <h2 class="text-xl font-bold mb-4">Métricas de Soberania (SandxCDD)</h2>
+                    <div id="clm-log" class="bg-black text-green-400 p-6 rounded-lg font-mono text-xs h-80 overflow-y-auto">
+                        > Sistema pronto...
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     </main>
 
-    <div id="toast" class="fixed bottom-10 right-10 bg-white border-l-4 border-blue-500 shadow-2xl px-6 py-4 rounded-xl translate-x-[150%] transition-transform duration-500 z-50">
-        <p class="text-sm font-bold text-gray-800" id="toast-msg"></p>
+    <div id="toast" class="fixed bottom-10 right-10 bg-white border-l-4 border-blue-500 shadow-xl px-6 py-4 rounded-lg translate-x-[150%] transition-all duration-500 z-50">
+        <p class="text-sm font-bold" id="toast-txt"></p>
     </div>
 
     <script>
         lucide.createIcons();
-        const workerURL = 'https://govdna.contatodroppfy.workers.dev';
-        let userLocation = "0,0";
+        const api = 'https://govdna.contatodroppfy.workers.dev';
+        let myGeo = "0,0";
 
-        // 1. Lógica de Geolocalização do Governo (AuditTrail)
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(pos => {
-                    userLocation = `${pos.coords.latitude.toFixed(4)},${pos.coords.longitude.toFixed(4)}`;
-                    document.getElementById('gps-status').innerText = `GEO: ${userLocation}`;
-                });
+        // MÁSCARA GOV (Extraída do sso.acesso.gov.br)
+        document.getElementById('main-search').oninput = (e) => {
+            let v = e.target.value.replace(/\D/g, '');
+            if (v.length <= 11) {
+                e.target.value = v.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+            } else {
+                e.target.value = v.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
             }
+        };
+
+        // GEOLOCALIZAÇÃO (AuditTrail)
+        function getGeo() {
+            navigator.geolocation.getCurrentPosition(p => {
+                myGeo = `${p.coords.latitude.toFixed(4)},${p.coords.longitude.toFixed(4)}`;
+                document.getElementById('geo-tag').innerText = `COORD: ${myGeo}`;
+            });
         }
 
-        function switchView(name) {
+        function switchView(n) {
             document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
-            document.getElementById(`view-${name}`).classList.add('active');
+            document.getElementById('v-'+n).classList.add('active');
             document.querySelectorAll('.sidebar-item').forEach(b => b.classList.remove('active'));
-            document.getElementById(`nav-${name}`).classList.add('active');
+            document.getElementById('n-'+n).classList.add('active');
         }
 
-        function showNotification(msg, type) {
+        function notify(m, type) {
             const t = document.getElementById('toast');
-            document.getElementById('toast-msg').innerText = msg;
+            document.getElementById('toast-txt').innerText = m;
             t.style.borderLeftColor = type === 'success' ? '#34a853' : '#1a73e8';
             t.classList.remove('translate-x-[150%]');
-            setTimeout(() => t.classList.add('translate-x-[150%]'), 4000);
+            setTimeout(() => t.classList.add('translate-x-[150%]'), 3000);
         }
 
-        // 2. Buscador Eficaz com Medição de KPI
-        async function buscarEmpresa() {
-            const cnpj = document.getElementById('cnpj-input').value.replace(/\D/g,'');
-            if(cnpj.length < 11) return showNotification("Identificação Inválida", "error");
-            
+        // BUSCADOR COM KPI DE LATÊNCIA
+        async function buscarGov() {
+            const val = document.getElementById('main-search').value.replace(/\D/g,'');
             const start = performance.now();
-            showNotification("Handshake com Node Governamental...", "info");
+            notify("Handshake TLS 1.2 iniciado...", "info");
 
             try {
-                const r = await fetch(`${workerURL}/api/busca/${cnpj}`);
+                const r = await fetch(`${api}/api/busca/${val}`);
                 const d = await r.json();
-                const latencia = (performance.now() - start).toFixed(0);
+                const lat = (performance.now() - start).toFixed(0);
 
                 if(d.cnpj || d.nome) {
-                    document.getElementById('auth-status-ui').innerText = d.razao_social || d.nome;
-                    document.getElementById('auth-status-ui').className = "mt-2 text-sm font-bold text-green-600";
-                    document.getElementById('latencia-val').innerText = `${latencia}ms`;
-                    document.getElementById('latencia-bar').style.width = '100%';
+                    document.getElementById('status-auth').innerText = d.razao_social || d.nome;
+                    document.getElementById('status-auth').className = "mt-2 text-sm font-bold text-green-600";
+                    document.getElementById('kpi-val').innerText = `${lat}ms`;
+                    document.getElementById('kpi-bar').style.width = '100%';
                     
-                    const log = document.getElementById('clm-log');
-                    log.innerHTML += `<br>> Sincronizado: ${d.cnpj} | Latência: ${latencia}ms | Status: OK`;
-                    showNotification("Sincronização Eficaz!", "success");
+                    document.getElementById('clm-log').innerHTML += `<br>> [${new Date().toLocaleTimeString()}] SYNC OK: ${val} | LATENCY: ${lat}ms`;
+                    notify("Sincronizado!", "success");
                 }
-            } catch(e) { showNotification("Erro de conexão com o Worker", "error"); }
+            } catch(e) { notify("Erro de conexão", "error"); }
         }
 
-        // 3. Gravação com Assinatura Digital e Geolocalização
-        async function gravarImpostoReal() {
+        async function gravar() {
             const data = {
-                tipo: document.getElementById('tax-name').value,
-                valor: parseFloat(document.getElementById('tax-amount').value),
-                vencimento: document.getElementById('tax-date').value,
-                location: userLocation
+                tipo: document.getElementById('t-name').value,
+                valor: parseFloat(document.getElementById('t-amount').value),
+                vencimento: document.getElementById('t-date').value,
+                location: myGeo
             };
-
             try {
-                const r = await fetch(`${workerURL}/api/add-tax`, {
+                const r = await fetch(`${api}/api/add-tax`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
                 if(r.ok) {
-                    showNotification("Fato Fiscal Assinado e Gravado!", "success");
-                    loadData();
+                    notify("Fato Gravado e Assinado!", "success");
+                    load();
                 }
-            } catch(e) { showNotification("Falha na gravação D1", "error"); }
+            } catch(e) { notify("Erro no Ledger", "error"); }
         }
 
-        async function loadData() {
+        async function load() {
             try {
-                const r = await fetch(`${workerURL}/api/sync`);
+                const r = await fetch(`${api}/api/sync`);
                 const d = await r.json();
-                document.getElementById('total-val').innerText = `R$ ${d.total.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                document.getElementById('total-txt').innerText = `R$ ${d.total.toLocaleString('pt-BR')}`;
             } catch(e) {}
         }
 
-        window.onload = () => {
-            getLocation();
-            loadData();
-            const ctx = document.getElementById('taxChart').getContext('2d');
-            new Chart(ctx, { type: 'line', data: { labels: ['Set','Out','Nov','Dez'], datasets:[{label: 'KPI Financeiro', data:[5,12,7,15], borderColor:'#1a73e8', tension: 0.3}] } });
+        window.onload = () => { getGeo(); load(); 
+            new Chart(document.getElementById('mainChart'), { type: 'line', data: { labels: ['Q1','Q2','Q3','Q4'], datasets:[{label:'KPIs', data:[12,19,3,5], borderColor:'#1a73e8'}] } });
         };
     </script>
 </body>
